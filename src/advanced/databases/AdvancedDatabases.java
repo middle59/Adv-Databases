@@ -9,10 +9,14 @@ public class AdvancedDatabases {
         System.out.println("============DB CONNECTION============");
         MySqlConnection sql_connection = new MySqlConnection();
         sql_connection.tryQuery();
-        
+
         System.out.println("============HTTP CONNECTION============");
         GeneralHttpURLConnection http_connection = new GeneralHttpURLConnection();
         http_connection.sendGet();
+
+        System.out.println("============ZOMATO CONNECTION============");
+        Zomato zomato = new Zomato();
+        zomato.sendGet();
     }
-    
+
 }
