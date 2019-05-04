@@ -44,7 +44,7 @@ public class MySqlConnection {
         Connection connection = createConnection();
         try {
             Statement st = connection.createStatement();
-            String insert = "INSERT INTO restaurants (res_name, res_address, res_lat, res_lon, res_avg_rating) "
+            String insert = "INSERT INTO zomato_table (res_name, res_address, res_lat, res_lon, res_avg_rating) "
                     + "VALUES (?, ?, ?, ?, ?)";
 
             PreparedStatement prep = connection.prepareStatement(insert);
@@ -56,7 +56,7 @@ public class MySqlConnection {
 
             prep.execute();
 
-            String select = "SELECT * FROM restaurants";
+            String select = "SELECT * FROM zomato_table";
             ResultSet result = st.executeQuery(select);
 
             while (result.next()) {
