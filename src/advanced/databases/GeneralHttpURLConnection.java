@@ -38,6 +38,20 @@ public class GeneralHttpURLConnection {
                 ZomatoParser parser = new ZomatoParser();
                 parser.parseAndStore(response.toString());
             }
+            
+            if (key.equals("key")) 
+            {
+                GoogleParser parser = new GoogleParser();
+                parser.parseAndStore(response.toString());
+            }
+            else
+            {
+                System.out.println("does not contain google");
+                GoogleParser parser = new GoogleParser();
+                parser.parseAndStore(response.toString());
+            }
+            //System.out.println("Response: " + response.toString());
+            
 
         } catch (Exception e) {
             System.err.println("GeneralHttpURLConnection.sendGet got an exception!");
