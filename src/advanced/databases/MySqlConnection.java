@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
+import java.util.HashMap;
 
 /**
  * FOR INSTALLATION: MySQLInstaller for Windows SQL Connector/J for 8.0.15 Add
@@ -39,6 +40,18 @@ public class MySqlConnection {
 
         return connection;
     }
+    
+    public void insertBusinessInfo(BusinessInfo business_info)
+    {
+        Map<String, String> resultMap = new HashMap<>();
+        resultMap.put("name", business_info.name);
+        resultMap.put("address", business_info.full_address);
+        resultMap.put("latitude", business_info.latitude+"");
+        resultMap.put("longitude", business_info.longitude+"");
+        resultMap.put("aggregate_rating", business_info.rating+"");
+
+        insetZomatoData(resultMap);
+    }
 
     public void insetZomatoData(Map<String, String> map) {
         Connection connection = createConnection();
@@ -61,7 +74,7 @@ public class MySqlConnection {
 
             while (result.next()) {
                 if (result.isLast()) {
-                    System.out.println(
+                    System.out.println("SQL insetZomatoData: " +
                             result.getInt("res_id") + ","
                             + result.getString("res_name") + ","
                             + result.getString("res_address") + ","
