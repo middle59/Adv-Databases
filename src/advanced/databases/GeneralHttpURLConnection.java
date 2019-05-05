@@ -38,6 +38,11 @@ public class GeneralHttpURLConnection {
                 ZomatoParser parser = new ZomatoParser();
                 parser.parseAndStore(response.toString());
             }
+            else
+            {
+                YelpParser parser = new YelpParser();
+                parser.parseAndStore(response.toString());
+            }
 
         } catch (Exception e) {
             System.err.println("GeneralHttpURLConnection.sendGet got an exception!");

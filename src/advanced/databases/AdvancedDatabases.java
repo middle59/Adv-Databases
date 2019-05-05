@@ -2,7 +2,7 @@ package advanced.databases;
 
 public class AdvancedDatabases {
 
-    private final static String yelpUrl = "https://api.yelp.com/v3/autocomplete?text=del&latitude=37.786882&longitude=-122.399972";
+    private final static String yelpUrl = "https://api.yelp.com/v3/businesses/search?text=del&latitude=39.950088&longitude=-74.866040";
     private final static String zomatoUrl = "https://developers.zomato.com/api/v2.1/geocode?lat=39.950088&lon=-74.866040";
     private final static String googleUrl = "";
 
