@@ -27,6 +27,9 @@ public class AdvancedDatabases {
         
         System.out.println("============GOOGLE HTTP CONNECTION============");
         googleHTTPGet(http_connection, default_lat, defualt_lon);
+        
+        MySqlConnection sql_connection = new MySqlConnection();
+        sql_connection.averageBusinessRatings();
     }
     
     public static void yelpHTTPGet(GeneralHttpURLConnection http_connection, double lat, double lon)

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Map;
@@ -83,6 +84,71 @@ public class MySqlConnection {
                             + result.getFloat("res_avg_rating")
                     );
                 }
+            }
+            connection.close();
+        } catch (Exception e) {
+            System.err.println("MySqlConnection.createConnection got an exception!");
+            System.err.println(e.getMessage());
+        }
+    }
+    
+    public void averageBusinessRatings() {
+        
+        Connection connection = createConnection();
+        try {
+            
+            Statement st = connection.createStatement();
+            
+            String union_ratings = "SELECT yelp_table.res_name, google_table.res_name, zomato_table.res_name, yelp_table.res_avg_rating, google_table.res_avg_rating, zomato_table.res_avg_rating\n" + 
+                "FROM google_table\n" +
+                "LEFT JOIN yelp_table ON google_table.res_name = yelp_table.res_name\n" +
+                "LEFT JOIN zomato_table ON yelp_table.res_name = zomato_table.res_name\n" +
+                "UNION\n" +
+                "SELECT yelp_table.res_name, google_table.res_name, zomato_table.res_name, yelp_table.res_avg_rating, google_table.res_avg_rating, zomato_table.res_avg_rating \n" +
+                "FROM google_table\n" +
+                "RIGHT JOIN yelp_table ON google_table.res_name = yelp_table.res_name\n" +
+                "LEFT JOIN zomato_table ON yelp_table.res_name = zomato_table.res_name\n" +
+                "UNION\n" +
+                "SELECT yelp_table.res_name, google_table.res_name, zomato_table.res_name, yelp_table.res_avg_rating, google_table.res_avg_rating, zomato_table.res_avg_rating \n" +
+                "FROM google_table\n" +
+                "RIGHT JOIN yelp_table ON google_table.res_name = yelp_table.res_name\n" +
+                "RIGHT JOIN zomato_table ON yelp_table.res_name = zomato_table.res_name;";
+
+            ResultSet result = st.executeQuery(union_ratings);
+            ResultSetMetaData rsmd = result.getMetaData();
+            int columnsNumber = rsmd.getColumnCount();
+            
+            if (columnsNumber % 2 == 1) // uneven # columns for name/rating 
+            {
+                System.err.println("averageBusinessRatings queried the DB and got an uneven number of name rating pairs! Cannot calculate averages.");
+                return;
+            }
+            
+            while (result.next()) {
+                String result_str = "Entry : ";
+                String business_name = "";
+                Double rating_total = 0.0;
+                int count = 0;
+                
+                for (int i = 1; i <= columnsNumber; i++) {
+                    result_str += result.getString(i);
+                    
+                    if(i <= (columnsNumber / 2) && result.getString(i) != null)
+                    {
+                        business_name = result.getString(i);
+                    }
+                    else if(i > (columnsNumber / 2) && result.getString(i) != null)
+                    {
+                        rating_total += Double.parseDouble(result.getString(i));
+                        count++;
+                    }
+                    if(i < columnsNumber)
+                         result_str += ", ";
+                }
+                
+                Double avg_rating = rating_total / count;
+                System.out.println(result_str);
+                System.out.println("Business: "+business_name+", Average Rating: "+avg_rating);
             }
             connection.close();
         } catch (Exception e) {
