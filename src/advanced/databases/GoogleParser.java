@@ -38,24 +38,20 @@ public class GoogleParser {
             JSONArray ja = (JSONArray) jo.get("results");
             for (int i = 0; i < ja.size(); i++) 
             {
+                BusinessInfo business_info = new BusinessInfo();
                 JSONObject o = (JSONObject) ja.get(i);
                 Map geoMap = (HashMap) o.get("geometry");
                 Map locMap = (HashMap) geoMap.get("location");
-                //Map ratingMap = (HashMap) infoMap.get("user_rating");
                 
-                System.out.println("name: " + o.get("name"));
-                System.out.println("address: " + o.get("vicinity"));
-                System.out.println("lat: " + locMap.get("lat"));
-                System.out.println("lon: " + locMap.get("lng"));
-                System.out.println("rating: " + o.get("rating"));
+                business_info.name = (String) o.get("name");
+                business_info.full_address = (String) o.get("vicinity");
+                business_info.latitude = (Double) locMap.get("lat");
+                business_info.longitude = (Double) locMap.get("lng");
+                business_info.rating = (Double) o.get("rating");
 
-                //resultMap.put("name", String.valueOf(infoMap.get("name")));
-                //resultMap.put("address", String.valueOf(locMap.get("address")).replace(",", ""));
-                //resultMap.put("latitude", String.valueOf(locMap.get("latitude")));
-                //resultMap.put("longitude", String.valueOf(locMap.get("longitude")));
-                //resultMap.put("aggregate_rating", String.valueOf(ratingMap.get("aggregate_rating")));
-
-                //sql_connection.insetZomatoData(resultMap);
+                System.out.println(business_info.toString());
+                
+                sql_connection.insertBusinessInfo(business_info, "google_table");
             }
 
         } 

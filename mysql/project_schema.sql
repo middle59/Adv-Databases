@@ -9,7 +9,27 @@ USE project;
 CREATE TABLE zomato_table
 (
   res_id            INT             PRIMARY KEY   AUTO_INCREMENT,
-  res_name          VARCHAR(50)     NOT NULL      UNIQUE,
+  res_name          VARCHAR(50)     NOT NULL     UNIQUE,
+  res_address       VARCHAR(100)    NOT NULL,
+  res_lat           DOUBLE          NOT NULL,
+  res_lon           DOUBLE          NOT NULL,
+  res_avg_rating    FLOAT           NOT NULL
+);
+
+CREATE TABLE google_table
+(
+  res_id            INT             PRIMARY KEY   AUTO_INCREMENT,
+  res_name          VARCHAR(50)     NOT NULL     UNIQUE, 
+  res_address       VARCHAR(100)    NOT NULL,
+  res_lat           DOUBLE          NOT NULL,
+  res_lon           DOUBLE          NOT NULL,
+  res_avg_rating    FLOAT           NOT NULL
+);
+
+CREATE TABLE yelp_table
+(
+  res_id            INT             PRIMARY KEY   AUTO_INCREMENT,
+  res_name          VARCHAR(50)     NOT NULL     UNIQUE, 
   res_address       VARCHAR(100)    NOT NULL,
   res_lat           DOUBLE          NOT NULL,
   res_lon           DOUBLE          NOT NULL,

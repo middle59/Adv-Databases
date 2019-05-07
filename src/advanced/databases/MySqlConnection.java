@@ -41,7 +41,7 @@ public class MySqlConnection {
         return connection;
     }
     
-    public void insertBusinessInfo(BusinessInfo business_info)
+    public void insertBusinessInfo(BusinessInfo business_info, String table)
     {
         Map<String, String> resultMap = new HashMap<>();
         resultMap.put("name", business_info.name);
@@ -50,14 +50,14 @@ public class MySqlConnection {
         resultMap.put("longitude", business_info.longitude+"");
         resultMap.put("aggregate_rating", business_info.rating+"");
 
-        insetZomatoData(resultMap);
+        insetDataIntoTable(resultMap, table);
     }
 
-    public void insetZomatoData(Map<String, String> map) {
+    public void insetDataIntoTable(Map<String, String> map, String table) {
         Connection connection = createConnection();
         try {
             Statement st = connection.createStatement();
-            String insert = "INSERT INTO zomato_table (res_name, res_address, res_lat, res_lon, res_avg_rating) "
+            String insert = "REPLACE INTO "+ table +" (res_name, res_address, res_lat, res_lon, res_avg_rating) "
                     + "VALUES (?, ?, ?, ?, ?)";
 
             PreparedStatement prep = connection.prepareStatement(insert);
@@ -69,12 +69,12 @@ public class MySqlConnection {
 
             prep.execute();
 
-            String select = "SELECT * FROM zomato_table";
+            String select = "SELECT * FROM "+ table;
             ResultSet result = st.executeQuery(select);
 
             while (result.next()) {
                 if (result.isLast()) {
-                    System.out.println("SQL insetZomatoData: " +
+                    System.out.println("SQL inset into "+ table +": " +
                             result.getInt("res_id") + ","
                             + result.getString("res_name") + ","
                             + result.getString("res_address") + ","

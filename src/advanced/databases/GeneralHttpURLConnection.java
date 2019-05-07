@@ -11,7 +11,7 @@ public class GeneralHttpURLConnection {
     }
 
     // HTTP GET request
-    public void sendGet(String url, String key, String value) {
+    public void sendGet(String url, String key, String value, String source) {
         try {
             URL obj = new URL(url);
             HttpURLConnection con = (HttpURLConnection) obj.openConnection();
@@ -33,17 +33,17 @@ public class GeneralHttpURLConnection {
             }
             in.close();
 
-            if (response.toString().contains("zomato")) 
+            if (source.equals("zomato")) 
             {
                 ZomatoParser parser = new ZomatoParser();
                 parser.parseAndStore(response.toString());
             }
-            else if (key.equals("key")) 
+            else if (source.equals("google")) 
             {
                 GoogleParser parser = new GoogleParser();
                 parser.parseAndStore(response.toString());
             }
-            else
+            else if(source.equals("yelp"))
             {
                 YelpParser parser = new YelpParser();
                 parser.parseAndStore(response.toString());

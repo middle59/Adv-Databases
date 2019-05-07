@@ -80,7 +80,7 @@ public class YelpParser {
                 
                 System.out.println(business_info.toString());
                 
-                sql_connection.insertBusinessInfo(business_info);
+                sql_connection.insertBusinessInfo(business_info, "yelp_table");
             }
 
         } 

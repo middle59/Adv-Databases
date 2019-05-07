@@ -49,7 +49,7 @@ public class ZomatoParser
                 resultMap.put("longitude", String.valueOf(locMap.get("longitude")));
                 resultMap.put("aggregate_rating", String.valueOf(ratingMap.get("aggregate_rating")));
 
-                sql_connection.insetZomatoData(resultMap);
+                sql_connection.insetDataIntoTable(resultMap, "zomato_table");
             }
 
         } 
